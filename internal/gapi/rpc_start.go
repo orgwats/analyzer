@@ -4,14 +4,17 @@ import (
 	"context"
 
 	"github.com/orgwats/analyzer/internal/analyzer"
+	"github.com/orgwats/analyzer/internal/kafka"
 	aPb "github.com/orgwats/idl/gen/go/analyzer"
 	mPb "github.com/orgwats/idl/gen/go/market"
 )
 
 func (s *Server) Start(ctx context.Context, req *aPb.StartAnalyzerRequest) (*aPb.StartAnalyzerResponse, error) {
 	// addr := s.cfg.~~~
-	addr := "localhost:50051"
-	client, close, err := NewClient(mPb.NewMarketClient, addr)
+	rpcAddr := "localhost:50051"
+	kafkaAddr := "localhost:9092"
+
+	client, close, err := NewClient(mPb.NewMarketClient, rpcAddr)
 	if err != nil {
 		close()
 		return &aPb.StartAnalyzerResponse{
@@ -29,8 +32,17 @@ func (s *Server) Start(ctx context.Context, req *aPb.StartAnalyzerRequest) (*aPb
 		}, err
 	}
 
-	uuid, analyzer := analyzer.NewAnalyzer(ctx, s.store, client, stream, req.Symbol, close)
-	s.analyzers[uuid] = analyzer
+	producer, err := kafka.NewProducer(kafkaAddr)
+	if err != nil {
+		close()
+		return &aPb.StartAnalyzerResponse{
+			Success: false,
+			Message: "",
+		}, err
+	}
+
+	id, analyzer := analyzer.NewAnalyzer(ctx, s.store, client, stream, producer, req.Symbol, close)
+	s.analyzers[id] = analyzer
 
 	err = analyzer.Init()
 	if err != nil {
