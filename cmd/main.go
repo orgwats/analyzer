@@ -38,6 +38,8 @@ func main() {
 		defer wg.Done()
 		log.Printf("start analyzer GRPC server at %s", listener.Addr().String())
 
+		server.Run()
+
 		if err := grpcServer.Serve(listener); err != nil {
 			log.Fatal("market server failed to serve:", err)
 		}
