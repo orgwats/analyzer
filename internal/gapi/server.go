@@ -31,7 +31,7 @@ func NewServer(cfg *config.Config, store interface{}) *Server {
 
 func (s *Server) Run() {
 	// s.cfg.~~~
-	addr := "kafka:9092"
+	addr := "kafka:9093"
 	consumer, err := kafka.NewConsumer(addr)
 	if err != nil {
 		log.Fatal("cannot create kafka consumer:", err)
