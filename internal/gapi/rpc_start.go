@@ -12,7 +12,7 @@ import (
 func (s *Server) Start(ctx context.Context, req *aPb.StartAnalyzerRequest) (*aPb.StartAnalyzerResponse, error) {
 	// addr := s.cfg.~~~
 	rpcAddr := "market:50051"
-	kafkaAddr := "kafka:9093"
+	kafkaAddr := "34.132.215.86:9092"
 
 	client, close, err := NewClient(mPb.NewMarketClient, rpcAddr)
 	if err != nil {
