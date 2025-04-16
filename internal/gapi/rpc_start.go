@@ -2,6 +2,7 @@ package gapi
 
 import (
 	"context"
+	"log"
 
 	"github.com/orgwats/analyzer/internal/analyzer"
 	"github.com/orgwats/analyzer/internal/kafka"
@@ -54,6 +55,8 @@ func (s *Server) Start(ctx context.Context, req *aPb.StartAnalyzerRequest) (*aPb
 	}
 
 	go analyzer.Run()
+
+	log.Printf("%s analyzer started.", req.Symbol)
 
 	return &aPb.StartAnalyzerResponse{
 		Success: true,
