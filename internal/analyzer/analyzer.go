@@ -111,8 +111,10 @@ func (a *Analyzer) Run() {
 
 				rsi := CalculateRSI(a.CandleBuffer.GetCandles(), 14)
 
-				if rsi < 25 {
+				if rsi < 40 {
 					orderSide = "BUY"
+				} else if rsi > 60 {
+					orderSide = "SELL"
 				}
 
 				if orderSide != "" {
