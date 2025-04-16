@@ -122,8 +122,8 @@ func (a *Analyzer) Run() {
 
 					if orderSide == "BUY" {
 						// config 에서 받아와서 초기화 해야함.
-						takeProfitROI := 1.0005
-						stopLossROI := 0.9998
+						takeProfitROI := 1.0007
+						stopLossROI := 0.9996
 
 						a.Position.Type = "LONG"
 						a.Position.Price = price
@@ -134,8 +134,8 @@ func (a *Analyzer) Run() {
 
 					if orderSide == "SELL" {
 						// config 에서 받아와서 초기화 해야함.
-						takeProfitROI := 0.9998
-						stopLossROI := 1.0005
+						takeProfitROI := 0.9996
+						stopLossROI := 1.0007
 
 						a.Position.Type = "SHORT"
 						a.Position.Price = price
@@ -193,7 +193,7 @@ func (a *Analyzer) sendOrder(side string) error {
 		OrderSide: side,
 		Key:       uuid.New().String(),
 		Symbol:    a.symbol,
-		Size:      "0.01", // 테스트 고정 사이즈
+		Size:      "0.03", // 테스트 고정 사이즈
 	}
 
 	_, _, err := a.producer.Send(a.Id, order)
