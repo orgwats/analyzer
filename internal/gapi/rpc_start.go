@@ -11,7 +11,7 @@ import (
 
 func (s *Server) Start(ctx context.Context, req *aPb.StartAnalyzerRequest) (*aPb.StartAnalyzerResponse, error) {
 	// addr := s.cfg.~~~
-	rpcAddr := "market:50051"
+	rpcAddr := "market-service:50051"
 	kafkaAddr := "34.132.215.86:9092"
 
 	client, close, err := NewClient(mPb.NewMarketClient, rpcAddr)
